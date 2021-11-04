@@ -1,9 +1,10 @@
 import "./canvas.css";
 import { useRef, useEffect } from "react";
-import frameRenderer from "./frameRenderer";
-import positionUpdater from "./positionUpdater";
+import frameRenderer from "../helpers/frameRenderer";
+import positionUpdater from "../helpers/positionUpdater";
+import {getCar1, otherFunction} from "../helpers/spriteHelper";
 
-const size = { width: 800, height: 1000 };
+const size = { width: 880, height: 720 };
 
 function Canvas() {
   const canvasRef = useRef(null);
@@ -27,7 +28,31 @@ function Canvas() {
 
     const renderFrame = () => {
       const ctx = canvasRef.current.getContext("2d");
-      ctx.clearRect(0, 0, size.width, size.height);
+      //ctx.clearRect(0, 0, size.width, size.height);
+
+      var img = document.getElementById("sprites");
+      let width = 80;
+      let height = 80;
+      
+      for (let i = 0; i < 11; i++) {
+        ctx.drawImage(img, 137, 158, width, height, width * i, size.height - width, width, height)
+        ctx.drawImage(img, 318, 158, width, height, width * i, size.height - (width * 2), width, height)
+        ctx.drawImage(img, 318, 158, width, height, width * i, size.height - (width * 3), width, height)
+        ctx.drawImage(img, 318, 158, width, height, width * i, size.height - (width * 4), width, height)
+        ctx.drawImage(img, 137, 158, width, height, width * i, size.height - (width * 5), width, height)
+        ctx.drawImage(img, 228, 158, width, height, width * i, size.height - (width * 6), width, height)
+        ctx.drawImage(img, 228, 158, width, height, width * i, size.height - (width * 7), width, height)
+        ctx.drawImage(img, 228, 158, width, height, width * i, size.height - (width * 8), width, height)
+
+        if (i % 2 == 0)
+          ctx.drawImage(img, 409, 158, width, height, width * i, size.height - (width * 9), width, height)
+        else
+          ctx.drawImage(img, 499, 158, width, height, width * i, size.height - (width * 9), width, height)
+      }
+
+      var car = getCar1();
+      ctx.drawImage(img, car.x, car.y, car.width, car.height, 0, height * 7, car.width, car.height)
+
       ballRef.current.forEach((ball)=>{
         positionUpdater.call(ball, size)
         frameRenderer.call(ctx, ball)
