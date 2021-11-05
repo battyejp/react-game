@@ -4,14 +4,14 @@ import { drawGame } from "../helpers/frameRendererHelper"
 import { updatePositions } from "../helpers/motionHelper"
 
 const size = { width: 880, height: 720 }
-const laneHeight = 80
 
 function Canvas() {
   const canvasRef = useRef(null);
   const requestIdRef = useRef(null);
   const lanes = useRef([
-    { id: 2, speed: 1.5, enemies: [{x: 0}, {x: 200}, {x: 500 }] },
-    { id: 3, speed: 1.5, enemies: [{x: 0}, {x: 200}, {x: 500 }] }
+    { position: 2, speed: 1.5, enemies: [{x: 0, type: "blueCar"}, {x: 200, type: "yellowCar"}, {x: 500, type: "greenCar" }] },
+    { position: 3, speed: 2.0, enemies: [{x: 10, type: "yellowCar"}, {x: 210, type: "blueCar"}, {x: 400, type: "blueCar" }] },
+    { position: 4, speed: 2.5, enemies: [{x: 50, type: "yellowCar"}, {x: 250, type: "yellowCar"}, {x: 450, type: "greenCar" }] }
   ])
 
   useEffect(() => {

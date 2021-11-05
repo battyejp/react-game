@@ -1,51 +1,60 @@
-import {getBlueCarSprite, getGrassSprite, getWaterSprite, getRoadSprite, getBushSprite, getFinishSprite} from "../helpers/spriteHelper";
+import {getBlueCarSprite, getGrassSprite, getWaterSprite, getRoadSprite, getBushSprite, getFinishSprite, getYellowCarSprite, getGreenCarSprite} from "../helpers/spriteHelper";
 
 export function drawGame(ctx, backgroundHeight, lanes) {
-    const img = document.getElementById("sprites");
+    const img = document.getElementById("sprites")
+    const laneHeight = 80
     drawBackground()
-    drawLanes(lanes)
+    drawLanes()
 
-    function drawLanes(lanes) {
+    function drawLanes() {
         lanes.current.forEach((lane)=>{
             lane.enemies.forEach((enemy)=>{
-                drawCar(lane.id, enemy.x)
+                let getSpritFn; 
+                switch(enemy.type) {
+                    case "blueCar":
+                        getSpritFn = getBlueCarSprite;
+                        break;
+                    case "yellowCar":
+                        getSpritFn = getYellowCarSprite;
+                        break;
+                    case "greenCar":
+                        getSpritFn = getGreenCarSprite;
+                        break;
+                    default:
+                        break;
+                }
+
+                drawCar(lane.position, enemy.x, getSpritFn)
             })
         })
     }
 
     function drawBackground() {
-        let width = 80;
-        let height = 80;
         for (let i = 0; i < 11; i++) {
-            // ctx.drawImage(img, 137, 158, width, height, width * i, backgroundHeight - width, width, height)
-            drawGrass(i, 1)
-            ctx.drawImage(img, 318, 158, width, height, width * i, backgroundHeight - (width * 2), width, height)
-            ctx.drawImage(img, 318, 158, width, height, width * i, backgroundHeight - (width * 3), width, height)
-            ctx.drawImage(img, 318, 158, width, height, width * i, backgroundHeight - (width * 4), width, height)
-            ctx.drawImage(img, 137, 158, width, height, width * i, backgroundHeight - (width * 5), width, height)
-            ctx.drawImage(img, 228, 158, width, height, width * i, backgroundHeight - (width * 6), width, height)
-            ctx.drawImage(img, 228, 158, width, height, width * i, backgroundHeight - (width * 7), width, height)
-            ctx.drawImage(img, 228, 158, width, height, width * i, backgroundHeight - (width * 8), width, height)
+            drawBackgroundTile(i, 1, getGrassSprite)
+            drawBackgroundTile(i, 2, getRoadSprite)
+            drawBackgroundTile(i, 3, getRoadSprite)
+            drawBackgroundTile(i, 4, getRoadSprite)
+            drawBackgroundTile(i, 5, getGrassSprite)
+            drawBackgroundTile(i, 6, getWaterSprite)
+            drawBackgroundTile(i, 7, getWaterSprite)
+            drawBackgroundTile(i, 8, getWaterSprite)
 
             if (i % 2 === 0)
-                ctx.drawImage(img, 409, 158, width, height, width * i, backgroundHeight - (width * 9), width, height)
+                drawBackgroundTile(i, 9, getBushSprite)
             else
-                ctx.drawImage(img, 499, 158, width, height, width * i, backgroundHeight - (width * 9), width, height)
+                drawBackgroundTile(i, 9, getFinishSprite)
         }
     }
 
-    function drawCar(lane, x) {
-        const laneHeight = 80
+    function drawCar(lane, x, getSpritFn) {
         const numberOfLanes = 9
-        let blueCar = getBlueCarSprite()
+        let blueCar = getSpritFn()
         ctx.drawImage(img, blueCar.x, blueCar.y, blueCar.width, blueCar.height, x, (laneHeight * (numberOfLanes - lane)) + (laneHeight - blueCar.height)/2, blueCar.width, blueCar.height)
     }
 
-    function drawGrass(gridX, lane) {
-        const laneHeight = 80
-        const numberOfLanes = 9
-        let grass = getGrassSprite()
-        ctx.drawImage(img, grass.x, grass.y, 80, 80, 80 * gridX, 720 - 80, 80, 80)
-        //ctx.drawImage(img, grass.x, grass.y, grass.width, grass.height, gridX, (laneHeight * (numberOfLanes - lane)) + (laneHeight - grass.height)/2, grass.width, grass.height)
+    function drawBackgroundTile(gridX, lane, getSpritFn) {
+        let grass = getSpritFn()
+        ctx.drawImage(img, grass.x, grass.y, grass.width, grass.height, 80 * gridX, backgroundHeight - (grass.height * lane), grass.width, grass.height)
     }
 }
