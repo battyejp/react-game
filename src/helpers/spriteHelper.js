@@ -29,3 +29,19 @@ export function getBushSprite() {
 export function getFinishSprite() {
     return { x: 499, y: 158, width: 80, height: 80 };
 }
+
+export function getSmallLogSprite() {
+    return { x: 388, y: 257, width: 185, height: 58 };
+}
+
+export function getMediumLogSprite() {
+    return { x: 15, y: 328, width: 273, height: 58 };
+}
+
+export function getLargeLogSprite() {
+    return { x: 15, y: 257, width: 353, height: 58 };
+}
+
+export function getLillyPadSprite() {
+    return { x: 7, y: 169, width: 61, height: 56 };
+}
