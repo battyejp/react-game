@@ -9,9 +9,9 @@ function Canvas() {
   const canvasRef = useRef(null);
   const requestIdRef = useRef(null);
   const lanes = useRef([
-    { position: 2, speed: 1.5, enemies: [{x: 0, type: "blueCar"}, {x: 200, type: "yellowCar"}, {x: 500, type: "greenCar" }] },
-    { position: 3, speed: 2.0, enemies: [{x: 10, type: "yellowCar"}, {x: 210, type: "blueCar"}, {x: 400, type: "blueCar" }] },
-    { position: 4, speed: 2.5, enemies: [{x: 50, type: "yellowCar"}, {x: 250, type: "yellowCar"}, {x: 450, type: "greenCar" }] }
+    { position: 2, speed: 1.5, enemies: [{x: 0, width: 0, type: "blueCar"}, {x: 200, width: 0, type: "yellowCar"}, {x: 500, width: 0, type: "greenCar" }] },
+    { position: 3, speed: 2.0, enemies: [{x: 10, width: 0, type: "yellowCar"}, {x: 210, width: 0, type: "blueCar"}, {x: 400, width: 0, type: "blueCar" }] },
+    { position: 4, speed: 2.5, enemies: [{x: 50, width: 0, type: "yellowCar"}, {x: 250, width: 0, type: "yellowCar"}, {x: 450, width: 0, type: "greenCar" }] }
   ])
 
   useEffect(() => {
@@ -23,9 +23,9 @@ function Canvas() {
 
     const renderFrame = () => {
       const ctx = canvasRef.current.getContext("2d");
-      ctx.clearRect(0, 0, size.width, size.height)
+      //ctx.clearRect(0, 0, size.width, size.height)
       drawGame(ctx, size.height, lanes)
-      updatePositions(lanes)
+      updatePositions(lanes, size)
     };
 
     requestIdRef.current = requestAnimationFrame(tick);

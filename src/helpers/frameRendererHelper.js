@@ -9,22 +9,22 @@ export function drawGame(ctx, backgroundHeight, lanes) {
     function drawLanes() {
         lanes.current.forEach((lane)=>{
             lane.enemies.forEach((enemy)=>{
-                let getSpritFn; 
+                let carSprite;
                 switch(enemy.type) {
                     case "blueCar":
-                        getSpritFn = getBlueCarSprite;
+                        carSprite = getBlueCarSprite()
                         break;
                     case "yellowCar":
-                        getSpritFn = getYellowCarSprite;
+                        carSprite = getYellowCarSprite()
                         break;
                     case "greenCar":
-                        getSpritFn = getGreenCarSprite;
+                        carSprite = getGreenCarSprite()
                         break;
                     default:
                         break;
                 }
-
-                drawCar(lane.position, enemy.x, getSpritFn)
+                enemy.width = carSprite.width
+                drawCar(lane.position, enemy.x, carSprite)
             })
         })
     }
@@ -47,10 +47,9 @@ export function drawGame(ctx, backgroundHeight, lanes) {
         }
     }
 
-    function drawCar(lane, x, getSpritFn) {
+    function drawCar(lane, x, carSprite) {
         const numberOfLanes = 9
-        let blueCar = getSpritFn()
-        ctx.drawImage(img, blueCar.x, blueCar.y, blueCar.width, blueCar.height, x, (laneHeight * (numberOfLanes - lane)) + (laneHeight - blueCar.height)/2, blueCar.width, blueCar.height)
+        ctx.drawImage(img, carSprite.x, carSprite.y, carSprite.width, carSprite.height, x, (laneHeight * (numberOfLanes - lane)) + (laneHeight - carSprite.height)/2, carSprite.width, carSprite.height)
     }
 
     function drawBackgroundTile(gridX, lane, getSpritFn) {
